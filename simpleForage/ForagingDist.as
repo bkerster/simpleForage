@@ -1,13 +1,8 @@
 package {
 	
 	import flash.display.*;
-	
 	import flash.events.*;
-	
 	import flash.geom.*;
-	//import flash.filesystem.*;
-	//import flash.net.URLLoader;
-    //import flash.net.URLRequest;
 	import flash.net.*;
 
 	
@@ -25,7 +20,6 @@ package {
 	import fl.transitions.easing.*;
 	import fl.motion.MatrixTransformer;
 	import hiScoreClass
-	//import org.myjerry.as3extensions.io.FileStreamWithLineReader;
 
 	public class ForagingDist extends MovieClip {
 		
@@ -58,7 +52,6 @@ package {
 		public var randomHiScore:Number = 250;
 		public var clusteredHiScore:Number = 250;
 		
-		//public var hiScoreIDArray:Array = new Array();
 		public var hiScoreArray:Array = new Array(10);
 		
 		private var starField:Sprite = new Sprite();
@@ -66,9 +59,7 @@ package {
 		
 		private var stars:Array = new Array();
 		private var overflowStars:Array = new Array();
-		//private var ship = new Ship();
 		private var ship = new Trek();
-		//private var scanner:Sprite = new Sprite;
 		private var scoreDisplay = new TextField();
 		private var fuelTextDisplay = new TextField();
 		
@@ -107,7 +98,6 @@ package {
 		
 		//fuel stuff
 		public var fuel:Number;
-		//public var startFuel:Number = 15;
 		public var startFuel:Number = 300;
 		public var fuelDisplay = new TextField();
 		public var prevX:Number = (VIEW_XWINDOW / 2);
@@ -136,11 +126,7 @@ package {
 		//variable used to march through the instructions, 
 		//should be incremented by an OnClick event handler 
 		//to move through the instructions
-		public var instructionNumber:int = 1; 
-		
-		//logging
-		//public var fileStream:FileStream = new FileStream();
-		//public var mouseStream:FileStream = new FileStream();
+		public var instructionNumber:int = 1; 		
 		
 		public var restartButton:SimpleButton;
 		public var inputField:TextField = new TextField();
@@ -149,20 +135,11 @@ package {
 		public var saveField:TextField = new TextField();
 		
 		public var totalStars:Number = 0;
-		//public static const STARS_NUMBER:Number = 50;
 		
 		public var urlLoader:URLLoader = new URLLoader();
 		public var hiUrlLoader:URLLoader = new URLLoader();
 		
 		public var cursorBox = new CursorBox();
-		// output functionality (moved these into the individual functions
-		
-		/*
-		public var outputUrlLoader:URLLoader = new URLLoader();
-		public var outputVars:URLVariables = new URLVariables();
-		public var outputurl:String = "savewf.php";
-		public var outputUrlRequest:URLRequest = new URLRequest(outputurl);
-		*/
 		
 		//variable to prevent rediving
 		public var diveStop:int = 0;
@@ -175,18 +152,9 @@ package {
 			
 		public static const VIEW_XWINDOW:Number = 1280;
 		public static const VIEW_YWINDOW:Number = 1024;
-		
 		public static const SCANNER_RADIUS:Number = 10;
-			
-		//public static const CONTROL_XWINDOW:Number = 160;
-		//public static const CONTROL_YWINDOW:Number = 480;
-		
-		//public static const ENVIRONMENT_XWINDOW:Number = 12800;
-		//public static const ENVIRONMENT_YWINDOW:Number = 9600;
-		
 		public static const ENVIRONMENT_XWINDOW:Number = 1280;
 		public static const ENVIRONMENT_YWINDOW:Number = 1024;
-			
 		public static const SPEED_INCREMENT:Number = 10;
 		public static const ZOOM_FACTOR:Number = 15;
 			
@@ -224,26 +192,19 @@ package {
 			instructField.autoSize = TextFieldAutoSize.CENTER;
 			instructField.x = (VIEW_XWINDOW / 2) - (instructField.width / 2);
 			instructField.y = (VIEW_YWINDOW / 2) - 30;
-			//addChild(instructField);
 			
-			
-			
-			//var inputField:TextField = new TextField();
 			fieldFormat.color = 0x000000;
 			fieldFormat.size = 18;
 			inputField.defaultTextFormat = fieldFormat;
 			inputField.backgroundColor = 0xFFFFFF;
 			inputField.background = true;
-			//addChild(inputField);
 			inputField.width = 200;
 			inputField.height = 30;
 			inputField.x = (VIEW_XWINDOW / 2) - (inputField.width / 2);
 			inputField.y = (VIEW_YWINDOW / 2) + 10;
 			inputField.type = "input";
 			inputField.multiline = false;
-			//stage.focus = inputField;
 			inputField.restrict = "A-Za-z0-9";
-			//inputField.addEventListener(KeyboardEvent.KEY_DOWN,startExperiment);
 			
 			displayInstructions();
 
@@ -323,7 +284,6 @@ package {
 		protected function clickHandler(event:MouseEvent):void
 		{
 			if (!gameEnded && clicksAllowed) {
-				//thrusterChannel.stop();
 				//store starting coords of mouse and ship
 				var mX:Number = mouseX;
 				var mY:Number = mouseY;
@@ -343,39 +303,11 @@ package {
 						var foundResource:Boolean = checkCollision(mX, mY);
 						drawSquare(foundResource, mX, mY);
 					}
-				}				
-				
-
+				}					
 			}
-			
 			printOut("Click");
 		}
-/*
-		protected function keyPressHandler(event:KeyboardEvent):void
-		{
-			//standard arrow key controls
-			switch( event.keyCode )
-			{
-	
-				case Keyboard.SPACE:
-					if (!zoomed) {
-						if (diveStop < 2) {
-							zoomIn();
-							zoomed = true;
-							diveStop++;
-							diveCount++;
-						}
-					}
-					else {
-						zoomOut();
-						zoomed = false;
-					}
-					break;
-			}
-	
-			
-		}
-*/
+
 		protected function startExperiment(event:KeyboardEvent):void
 		{
 			switch( event.keyCode )
@@ -383,9 +315,7 @@ package {
 				case Keyboard.ENTER:
 					
 					playerName = inputField.text;
-					//if (!displayPreview()) {
-						//return;
-					//}
+
 					inputField.removeEventListener(KeyboardEvent.KEY_DOWN, startExperiment);
 					removeChild(inputField);
 					removeChild(instructField);
@@ -407,16 +337,7 @@ package {
 					saveScore(); //saves score to disk
 					displayHighScore();
 					
-					break;
-					// playerName = inputField.text;
-					// if (!displayPreview()) {
-						// return;
-					// }
-					// inputField.removeEventListener(KeyboardEvent.KEY_DOWN, startExperiment);
-					// removeChild(inputField);
-					// removeChild(instructField);
-					
-					// break;
+					break;					
 			}
 		}
 		
@@ -450,20 +371,13 @@ package {
 				//remove the preview nodes. make sure this gets called properly
 				trace(nodes.length);
 				for (var i = 0; i < nodes.length; i++) {
-					//nodes[i].height = 2.65;
-					//nodes[i].width = 2.64;
 					starField.removeChild(nodes[i]);
 				}
 				removeChild(instructField);
 				trialNum++;
-				trace(trialNum);
-				//starField.removeChild(backGroundSprite);
+				trace(trialNum);		
 				removeChild(starField);
-				init();
-				//stage.addEventListener(MouseEvent.CLICK, clickHandler);
-				// trace("TEST TEST TEST");
-				// trialNum++;
-				// init();
+				init();				
 			}
 			if (trialNum == 2) {
 				if (moveTimeCondition == true) {
@@ -524,13 +438,8 @@ package {
 			var lines:Array = resources.split("\n");
 			
 			for (var i:int = 0; i < lines.length; i++){
-				var line:Array = lines[i].split(" ");
-				//hiScoreIDArray[i] = line[0];
-				//hiScoreIDArray[i] = line[0];
-				hiScoreArray[i] = new hiScoreClass(line[0], int(line[1]));
-				//hiScoreArray[i].initialAccess = line[0];
-				//hiScoreArray[i].scoreAccess = line[3];
-				//make sure to sort this list before saving it back out
+				var line:Array = lines[i].split(" ");				
+				hiScoreArray[i] = new hiScoreClass(line[0], int(line[1]));		
 			}
 			checkHighScore();
 		}
@@ -550,14 +459,8 @@ package {
 				case 2:
 					removeChild(fuelBG);
 					removeChild(fuelBar);
-					//this isn't global, so it may be out of scope. 
 					var arrow = uiContainer.getChildByName("arrow1");
-					uiContainer.removeChild(arrow);
-					
-					//using uiContainer because it is a global variable, which
-					// allows for me to keep things in scope (hopefully)
-					//var resource = uiContainer.getChildByName("r1");
-					//uiContainer.removeChild(resource);
+					uiContainer.removeChild(arrow);								
 					break;
 				case 3:
 					uiContainer.removeChild(squareYi);
@@ -586,7 +489,6 @@ package {
 		
 		protected function instructions2Handler(event:MouseEvent):void
 		{
-			//trace("Blarg I am dead");
 			removeChild(instructField);
 			stage.removeEventListener(MouseEvent.CLICK, instructions2Handler);
 			
@@ -614,39 +516,10 @@ package {
 			
 			saveField.text = "ERROR SAVING DATA! ALERT THE EXPERIMENTER IMMEDIATLY"
 			saveField.autoSize = TextFieldAutoSize.CENTER;
-			saveField.x = VIEW_XWINDOW / 2;			
-			//handler stub
-			/*
-			instructionDisplay.text = "ioErrorHandler: " + event;
-			instructionDisplayFormat.align = TextFormatAlign.CENTER;
-			instructionDisplayFormat.color = 0x000000;
-			instructionDisplayFormat.size = 18;
-			instructionDisplayFormat.italic = false;
-			*/
-		}
+			saveField.x = VIEW_XWINDOW / 2;						
+		}		
 		
-		// protected function squareYeventHandler(event:Event):void
-		// {
-			// if(squareY.currentFrame == squareY.totalFrames)
-            // {
-                // squareY.stop();
-				// stage.removeChild(squareY);
-				// squareY.removeEventListener(Event.ENTER_FRAME, squareYeventHandler)
-            // }
-
-		// }
-		
-		// protected function squareWeventHandler(event:Event):void
-		// {
-			// if(squareW.currentFrame == squareW.totalFrames)
-            // {
-                // squareW.stop();
-				// stage.removeChild(squareW);
-				// squareW.removeEventListener(Event.ENTER_FRAME, squareWeventHandler)
-            // }
-
-		// }
-		
+		//handles the Yellow square animation
 		protected function squareYeventHandler(event:Event):void
 		{
 			if(event.target.currentFrame == event.target.totalFrames)
@@ -658,6 +531,7 @@ package {
 
 		}
 		
+		//handles the White square animation
 		protected function squareWeventHandler(event:Event):void
 		{
 			if(event.target.currentFrame == event.target.totalFrames)
@@ -670,19 +544,7 @@ package {
 		}
 		
 		//*************************
-		// Public methods:
-		
-		//not actually used
-		public function isChildOf(displayObjectContainer:DisplayObjectContainer, displayObject:DisplayObject):Boolean 
-		{   
-			for(var i:Number = 0; i < displayObjectContainer.numChildren; i++) {     
-				if (displayObjectContainer.getChildAt(i) == displayObject) {
-					return true;   
-				}
-			}   
-			return false; 
-		
-		}
+		// Public methods:		
 		
 		//Initializes the experiment to begin a trial
 		public function init():void
@@ -703,7 +565,6 @@ package {
 				currentTrial = randPicker[selection];
 				randPicker.splice(selection, 1)
 				trace("Background:" + String(currentTrial));
-				//trace(randPicker.length);
 				
 				switch( currentTrial ) {
 					case 1:
@@ -729,7 +590,6 @@ package {
 						break;
 				}
 			}
-
 			
 			backGroundSprite.graphics.drawRect(0,0,VIEW_XWINDOW,VIEW_YWINDOW);
 			backGroundSprite.graphics.endFill();
@@ -754,26 +614,18 @@ package {
 			uiContainer.y = 0;
 			addChild(uiContainer);
 			uiContainer.addChild(cursorBox);
-			// ship.x = (VIEW_XWINDOW / 2);
-			// ship.y = (VIEW_YWINDOW / 2);
-			//uiContainer.addChild(ship);
 			
 			//initialize score and add text display
 			score = 0;
 			var scoreFormat:TextFormat = new TextFormat();
 			scoreFormat.size = 28;
 			scoreDisplay.defaultTextFormat = scoreFormat;
-			//scoreDisplay.text = "Score:\n[ " + score + " / " + totalStars + " ]";
 			scoreDisplay.text = "[ " + score + " ]";
-			//\nHigh:\n[ " + highScore + " ] ";
 			scoreDisplay.autoSize = TextFieldAutoSize.LEFT;
 			scoreDisplay.textColor = 0xFFFFFF;
 			scoreDisplay.x = 5;
 			scoreDisplay.y = 5;
 			uiContainer.addChild(scoreDisplay);
-			
-			// Listen to keyboard presses
-			//stage.addEventListener(KeyboardEvent.KEY_DOWN,keyPressHandler);
 			
 			// Update screen every frame
 			addEventListener(Event.ENTER_FRAME,enterFrameHandler);
@@ -793,24 +645,14 @@ package {
 			var fuelTextFormat:TextFormat = new TextFormat();
 			fuelTextFormat.size = 24;
 			fuelTextDisplay.defaultTextFormat = scoreFormat;
-			//scoreDisplay.text = "Score:\n[ " + score + " / " + totalStars + " ]";
 			fuelTextDisplay.text = "[ " + fuel + " ]";
-			//\nHigh:\n[ " + highScore + " ] ";
 			fuelTextDisplay.autoSize = TextFieldAutoSize.RIGHT;
 			fuelTextDisplay.textColor = 0xFFFFFF;
 			fuelTextDisplay.x = VIEW_XWINDOW - 500;
 			fuelTextDisplay.y = 2 ;
 			uiContainer.addChild(fuelTextDisplay);
-			
-			/*fuelDisplay.text = "Fuel:\n[ " + fuel + " / " + startFuel + " ]";
-			fuelDisplay.autoSize = TextFieldAutoSize.RIGHT;
-			fuelDisplay.textColor = 0xFFFFFF;
-			fuelDisplay.x = VIEW_XWINDOW - 100;
-			fuelDisplay.y = 5;
-			uiContainer.addChild(fuelDisplay);*/
+
 			drawFuelBar();
-			// uiContainer.addChild(ship);
-			//return true;
 		}
 		
 		//reads in stars from a text file based on the trial number
@@ -819,28 +661,20 @@ package {
 			totalStars = 0;
 			var path:String;
 			var map_num:Number = (Math.floor(Math.random() * (0 - 999 + 1)) + 0)
-			trace("Map Number: " + String(map_num));
-			// if (clustered) {
-				// path = "maps/150stars25" + String(map_num) + ".txt";
-			// }
-			// else{
-				// path = "maps/150stars5" + String(map_num) + ".txt";
-			// }
+			trace("Map Number: " + String(map_num));			
 			path = "maps/" + numStarCondition + "stars" + clusteringCondition + String(map_num) + ".txt";
 			trace(path);
 			
 			var str:String = path + " " + String(currentTrial) + "\n";
 			outputArray.push(str);
 			
-			var urlRequest:URLRequest = new URLRequest(path);
-			//var urlLoader:URLLoader = new URLLoader();
-			urlLoader.addEventListener(Event.COMPLETE, urlLoader_complete);
-			//urlLoader.dataFormat = URLLoaderDataFormat.TEXT;
-			urlLoader.load(urlRequest);
-			
-			
+			var urlRequest:URLRequest = new URLRequest(path);			
+			urlLoader.addEventListener(Event.COMPLETE, urlLoader_complete);			
+			urlLoader.load(urlRequest);	
 		}
 		
+		//tests if a resource is at the given location
+		//depracated
 		public function checkNodeCollision(collider):void
 		{
 			if (zoomed) {
@@ -857,7 +691,6 @@ package {
 							score += Number(nodes[i][1]); //increase score
 							scoreIncrease += Number(nodes[i][1]);
 							scoreDisplay.text = "[ " + score + " ]"
-							//\nHigh:\n[ " + highScore + " ] ";
 							printOut("Gathered");
 						}
 					}
@@ -911,17 +744,14 @@ package {
 				}
 			}
 		}
-		
-		
-		//Used to check 
+				
 		public function checkCollision(mX:Number, mY:Number):Boolean
 		{
 			var scanWidth:Number = 15;
 			var scanRadius:Number = scanWidth / 2;
 			var scoreIncrease:int = 0;
 			var found:Array = new Array();
-			
-			
+
 			//checks if its inside the square.
 			for (var i:int = 1; i < nodes.length; i++) {
 				if ( (nodes[i].x > (mX - scanRadius)) && (nodes[i].x <= (mX + scanRadius)) && (nodes[i].y > (mY - scanRadius)) && (nodes[i].y <= (mY + scanRadius) ) && nodes[i][1] > 0 ) {
@@ -931,8 +761,7 @@ package {
 					found.push(i);
 				}
 			}
-
-			
+		
 			if (scoreIncrease > 0) {
 				buzzChannel.stop();
 				var coinSound:Sound;
@@ -1008,6 +837,7 @@ package {
 			return dist;
 		}
 		
+		//angular distance
 		public function getAngle(x1:Number, y1:Number, x2:Number, y2:Number):Number
 		{    
 			var radians:Number = Math.atan2(y1-y2, x1-x2);
@@ -1020,6 +850,7 @@ package {
 		}
 		
 		//zooms in around the ship's current location
+		//deprecated
 		public function zoomIn():void
 		{
 			zoomChannel.stop();
@@ -1061,6 +892,7 @@ package {
 		}
 		
 		//zooms the screen back out and hides the resources
+		//deprecated
 		public function zoomOut():void
 		{
 			for (var i = 0; i < nodes.length; i++) {
@@ -1104,6 +936,7 @@ package {
 		}
 		
 		//if the ship is moving it is stopped, and collision is checked
+		//deprecated
 		public function stopShip():void
 		{
 			if (mcX_tween != null) {
@@ -1116,7 +949,6 @@ package {
 			}
 		}
 
-		
 		public function drawFuelBar():void
 		{
 			var fuelPercent:int = int((fuel / startFuel) * 100 );
@@ -1152,8 +984,7 @@ package {
 			starField.y = 0;
 			addChild(starField);
 			
-			//draw the nodes (may need to change size)
-			
+			//draw the nodes
 			for (var i = 0; i < nodes.length; i++) {
 				starField.addChild(nodes[i]);
 				nodes[i].scaleX = 0.3;
@@ -1194,12 +1025,10 @@ package {
 			
 			// remove event handlers
 			stage.removeEventListener(MouseEvent.MOUSE_DOWN, clickHandler);
-			//stage.removeEventListener(KeyboardEvent.KEY_DOWN,keyPressHandler);
 			removeEventListener(Event.ENTER_FRAME,enterFrameHandler);
 			
 			trace("Removed event Listeners");
 			
-			//uiContainer.removeChild(ship);
 			outputArray.push("FINISHED\n");
 			//draw the restart game button
 			if (trialNum < 4) {
@@ -1217,23 +1046,8 @@ package {
 
 				removeChild(starField);
 				removeChild(uiContainer);
-				//removeChild(fuelBG);
-				//removeChild(fuelBar);
-				readHiScore();
-				//check the high score in the event handler
-				//checkHighScore();
 				
-				/*
-				var fieldFormat:TextFormat = new TextFormat();
-				fieldFormat.size = 24;
-				fieldFormat.color = 0xFFFFFF;
-				instructField.defaultTextFormat = fieldFormat;
-				instructField.text = "Your total score is " + totalScore + "\n The highest total score so far is " + highScore;
-				instructField.autoSize = TextFieldAutoSize.CENTER;
-				instructField.x = (VIEW_XWINDOW / 2) - (instructField.width / 2);
-				instructField.y = (VIEW_YWINDOW / 2) - 30;
-				addChild(instructField);
-				*/
+				readHiScore();			
 			}
 		}
 		
@@ -1255,15 +1069,11 @@ package {
 			restartButton.hitTestState = restartButton.upState;
 			starField.addChild(restartButton);
 			restartButton.addEventListener(MouseEvent.MOUSE_UP, restartButtonListener)
-			
 		}
 		
 		public function readHiScore():void
 		{
-			//get hi score file name
-			//
-			//
-			
+			//get hi score file name			
 			var fileName:String = clusteringCondition + "-" + numStarCondition + "-hiScore.txt";
 			trace("hi score filename: " + fileName);
 			
@@ -1321,6 +1131,8 @@ package {
 			addChild(instructField);
 		}
 		
+		//displays intructions
+		//iterates through with each click
 		public function displayInstructions():void
 		{
 
@@ -1338,17 +1150,13 @@ package {
 					addChild(ship);
 					stage.addEventListener(MouseEvent.CLICK, instructionsClickHandler);
 					//for the preview later
-					readStars(0);
-					
+					readStars(0);					
 					break;
 				case 2:
 					instructField.text = "You explore space by sending out probes.\nEach probe can only scan a small subsection of space,\n and you have a limited supply.\n";
 					addChild(instructField);
 					//add image of a resource
-					var resource = new asteroid();
-					//resource.x = VIEW_XWINDOW / 2;
-					// resource.y = (VIEW_YWINDOW / 2) - 75;
-					// resource.name = "r1";
+					var resource = new asteroid();					
 					//show the fuel bar
 					drawFuelBar();
 					//point to it
@@ -1358,10 +1166,6 @@ package {
 					arrow.name = "arrow1";
 					uiContainer.addChild(arrow);
 					addChild(uiContainer);
-					
-					//uiContainer.addChild(resource);
-					//addChild(uiContainer);
-					
 					stage.addEventListener(MouseEvent.CLICK, instructionsClickHandler);
 					break;
 				case 3:
@@ -1376,8 +1180,7 @@ package {
 					squareYi.y = 605;
 					uiContainer.addChild(squareYi);
 					uiContainer.addChild(squareWi);
-					addChild(uiContainer);
-					
+					addChild(uiContainer);					
 					stage.addEventListener(MouseEvent.CLICK, instructionsClickHandler);
 					break;
 				case 4: 
@@ -1448,7 +1251,6 @@ package {
 			
 			var fieldFormat:TextFormat = new TextFormat();
 			fieldFormat.size = 24;
-			//fieldFormat.color = 0xFFFFFF;
 			
 			var nameField:TextField = new TextField();
 			nameField.defaultTextFormat = fieldFormat;
@@ -1461,7 +1263,6 @@ package {
 			nameField.selectable = true;
 			nameField.y = 275;
 			nameField.x = 1280 / 2;
-			//nameField.textColor = 0xFFFFFF;
 			nameField.text = playerName;
 			trace(playerName);
 			
@@ -1476,8 +1277,7 @@ package {
 			debriefField.width = 800;
 			debriefField.height = 600;
 			debriefField.text = "Cognitive Science is the broad interdisciplinary study of the mind. This includes all aspects of cognition from language to perception and action. We are interested in the basic act of foraging for resources in an environment. We believe that there may be a connection between the basic act of foraging for resources in an environment and other higher level cognitive processes, such as memory and visual search. By examining how people forage in a virtual environment we hope to be able to better understand these higher level processes as well."
-			
-			
+
 			addChild(instructField);
 			addChild(nameField);
 			addChild(debriefField);
@@ -1493,51 +1293,11 @@ package {
 			inputField.addEventListener(KeyboardEvent.KEY_DOWN, initialsListener);
 			
 			instructField.text = "You got a high score! Enter your initials!";
-			addChild(instructField);
-		/*
-			//draw instructions, and input text field
-			var fieldFormat:TextFormat = new TextFormat();
-			fieldFormat.size = 24;
-			fieldFormat.color = 0xFFFFFF;
-			instructField.defaultTextFormat = fieldFormat;
-			instructField.text = "Please type your SONA ID number and then press 'Enter'"
-			instructField.autoSize = TextFieldAutoSize.CENTER;
-			instructField.x = (VIEW_XWINDOW / 2) - (instructField.width / 2);
-			instructField.y = (VIEW_YWINDOW / 2) - 30;
-			addChild(instructField);
-			
-			//var inputField:TextField = new TextField();
-			fieldFormat.color = 0x000000;
-			fieldFormat.size = 18;
-			inputField.defaultTextFormat = fieldFormat;
-			inputField.backgroundColor = 0xFFFFFF;
-			inputField.background = true;
-			addChild(inputField);
-			inputField.width = 200;
-			inputField.height = 30;
-			inputField.x = (VIEW_XWINDOW / 2) - (inputField.width / 2);
-			inputField.y = (VIEW_YWINDOW / 2) + 10;
-			inputField.type = "input";
-			inputField.multiline = false;
-			stage.focus = inputField;
-			inputField.restrict = "A-Za-z0-9";
-			inputField.addEventListener(KeyboardEvent.KEY_DOWN,startExperiment);
-			*/
+			addChild(instructField);		
 		}
 		
 		public function displayHighScore( ):void
-		{
-		/*
-			var fieldFormat:TextFormat = new TextFormat();
-			fieldFormat.size = 24;
-			fieldFormat.color = 0xFFFFFF;
-			instructField.defaultTextFormat = fieldFormat;
-			instructField.text = "Please type your SONA ID number and then press 'Enter'"
-			instructField.autoSize = TextFieldAutoSize.CENTER;
-			instructField.x = (VIEW_XWINDOW / 2) - (instructField.width / 2);
-			instructField.y = (VIEW_YWINDOW / 2) - 30;
-			addChild(instructField);
-		*/
+		{		
 			saveData();
 			var str:String = "Your score was: " + totalScore + "\n\n\nHigh Scores:\n\n";
 			
@@ -1574,47 +1334,12 @@ package {
 		}
 		
 		public function printOut(flavor:String):void
-		{
-			/*
-			if (flavor == "mouse") {
-				stream.writeUTFBytes(String(frameNumber));
-				stream.writeUTFBytes(" ");
-				stream.writeUTFBytes(String(mouseX));
-				stream.writeUTFBytes(" ");
-				stream.writeUTFBytes(String(mouseY));
-				stream.writeUTFBytes("\n");
-			}
-			*/
+		{			
 				var outstr:String = " ";
-				outstr = flavor + " " + String(frameNumber) + " " + String(mouseX) + " " + String(mouseY) + " " + String(score) + " " + String(fuel) + "\n"
-				
-				outputArray.push(outstr);
-				
-			/*
-				stream.writeUTFBytes(flavor);
-				stream.writeUTFBytes(" ");
-				stream.writeUTFBytes(String(frameNumber));
-				stream.writeUTFBytes(" ");
-				stream.writeUTFBytes(String(ship.x));
-				stream.writeUTFBytes(" ");
-				stream.writeUTFBytes(String(ship.y));
-				stream.writeUTFBytes(" ");
-				stream.writeUTFBytes(String(mouseX));
-				stream.writeUTFBytes(" ");
-				stream.writeUTFBytes(String(mouseY));
-				stream.writeUTFBytes(" ");
-				stream.writeUTFBytes(String(zoomed));
-				stream.writeUTFBytes(" ");
-				stream.writeUTFBytes(String(score));
-				stream.writeUTFBytes(" ");
-				stream.writeUTFBytes(String(fuel));
-				stream.writeUTFBytes("\n");
-				*/
-			
-
+				outstr = flavor + " " + String(frameNumber) + " " + String(mouseX) + " " + String(mouseY) + " " + String(score) + " " + String(fuel) + "\n"				
+				outputArray.push(outstr);		
 		}
 		
-		//need to add a "please wait, uploading your data" dialog
 		public function saveData(  ):void
 		{
 			var outputUrlLoader:URLLoader = new URLLoader();
@@ -1634,8 +1359,7 @@ package {
 			outputUrlLoader.dataFormat = URLLoaderDataFormat.VARIABLES;
 			outputUrlLoader.load(outputUrlRequest);
 			outputUrlLoader.addEventListener(Event.COMPLETE, onCompleteHandler);
-			outputUrlLoader.addEventListener(IOErrorEvent.IO_ERROR, onErrorHandler);
-			
+			outputUrlLoader.addEventListener(IOErrorEvent.IO_ERROR, onErrorHandler);			
 		}
 		
 		//saves the hiScore list
@@ -1661,8 +1385,6 @@ package {
 			outputUrlRequest.method = URLRequestMethod.POST;
 			outputUrlLoader.dataFormat = URLLoaderDataFormat.VARIABLES;
 			outputUrlLoader.load(outputUrlRequest);
-			//outputUrlLoader.addEventListener(Event.COMPLETE, onCompleteHandler);
-			//outputUrlLoader.addEventListener(IOErrorEvent.IO_ERROR, onErrorHandler);
 		}
 		
 		public function selectNumStars():void
@@ -1722,7 +1444,6 @@ package {
 		
 		public function moveTime( ):void
 		{
-			//prev x doesn't exist yet
 			addChild(circle);
 			var timespan = getDistance(circle.x, circle.y, locX, locY) / 30;
 			mcX_tween = new Tween(circle,"x", None.easeNone, circle.x, locX, timespan);
